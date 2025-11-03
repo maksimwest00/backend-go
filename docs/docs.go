@@ -35,7 +35,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.CreateProductRequestDto"
+                            "$ref": "#/definitions/createProduct.CreateProductRequestDto"
                         }
                     }
                 ],
@@ -48,14 +48,63 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/products/{id}": {
+            "get": {
+                "description": "Получить продукт по id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Продукты"
+                ],
+                "summary": "Получить продукт по id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Product ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Product"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
-        "api.CreateProductRequestDto": {
+        "createProduct.CreateProductRequestDto": {
             "type": "object",
             "properties": {
                 "company": {
                     "type": "string"
+                },
+                "model": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "integer"
+                }
+            }
+        },
+        "domain.Product": {
+            "type": "object",
+            "properties": {
+                "company": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
                 },
                 "model": {
                     "type": "string"

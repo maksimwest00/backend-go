@@ -4,6 +4,7 @@ import (
 	repository "backend-go/application/interfaces"
 	"backend-go/domain"
 	"database/sql"
+	"fmt"
 )
 
 type ProductRepo struct {
@@ -11,6 +12,10 @@ type ProductRepo struct {
 }
 
 var _ repository.ProductRepository = &ProductRepo{}
+
+func NewProductRepository(db *sql.DB) *ProductRepo {
+	return &ProductRepo{db}
+}
 
 // AddProduct implements repository.ProductRepository.
 func (r *ProductRepo) AddProduct(p *domain.Product) (*int, error) {
@@ -32,10 +37,46 @@ func (r *ProductRepo) AddProduct(p *domain.Product) (*int, error) {
 }
 
 // GetProductById implements repository.ProductRepository.
-func (p *ProductRepo) GetProductById(*int) (*domain.Product, error) {
-	panic("unimplemented")
+func (r *ProductRepo) GetProductById(id *int) (*domain.Product, error) {
+	row := r.db.QueryRow(
+		`SELECT id, model, company, price FROM Products
+		WHERE id = $1`, id)
+
+	p := &domain.Product{}
+	err := row.Scan(&p.Id, &p.Model, &p.Company, &p.Price)
+
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, fmt.Errorf("product with id %d not found", id)
+		}
+		return nil, err
+	}
+
+	return p, nil
 }
 
-func NewProductRepository(db *sql.DB) *ProductRepo {
-	return &ProductRepo{db}
+func (r *ProductRepo) GetProducts() (*[]domain.Product, error) {
+	rows, err := r.db.Query(
+		`SELECT * from Products`)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	products := []domain.Product{}
+
+	for rows.Next() {
+		p := domain.Product{}
+		err := rows.Scan(&p.Id, &p.Model, &p.Company, &p.Price)
+
+		if err != nil {
+			continue
+		}
+
+		products = append(products, p)
+	}
+
+	return &products, nil
 }

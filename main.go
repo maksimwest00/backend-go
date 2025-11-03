@@ -39,6 +39,7 @@ func main() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/api/v1/products", handlers.CreateProductHanlder).Methods("POST")
+	router.HandleFunc("/api/v1/products/{id:[0-9]+}", handlers.GetProductByIdHandler).Methods("GET")
 
 	http.Handle("/", router)
 

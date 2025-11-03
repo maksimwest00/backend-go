@@ -1,9 +1,20 @@
 basePath: /api/v1
 definitions:
-  api.CreateProductRequestDto:
+  createProduct.CreateProductRequestDto:
     properties:
       company:
         type: string
+      model:
+        type: string
+      price:
+        type: integer
+    type: object
+  domain.Product:
+    properties:
+      company:
+        type: string
+      id:
+        type: integer
       model:
         type: string
       price:
@@ -27,7 +38,7 @@ paths:
         name: JSON
         required: true
         schema:
-          $ref: '#/definitions/api.CreateProductRequestDto'
+          $ref: '#/definitions/createProduct.CreateProductRequestDto'
       produces:
       - application/json
       responses:
@@ -36,6 +47,27 @@ paths:
           schema:
             type: string
       summary: Создать продукт
+      tags:
+      - Продукты
+  /products/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Получить продукт по id
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Product'
+      summary: Получить продукт по id
       tags:
       - Продукты
 schemes:

@@ -2,7 +2,9 @@ package handlers
 
 import (
 	"backend-go/application/createProduct"
+
 	"backend-go/infrastructure/persistence"
+
 	"net/http"
 )
 
@@ -11,7 +13,7 @@ import (
 // @Description Создать продукт
 // @Accept json
 // @Produce json
-// @Param JSON body api.CreateProductRequestDto true "CreateProductRequestDto"
+// @Param JSON body createProduct.CreateProductRequestDto true "CreateProductRequestDto"
 // @Success 200 {object} string
 // @Router /products [POST]
 func CreateProductHanlder(
