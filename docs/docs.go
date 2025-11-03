@@ -33,8 +33,9 @@ const docTemplate = `{
                         "description": "CreateProductDto",
                         "name": "JSON",
                         "in": "body",
+                        "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.CreateProductDto"
+                            "$ref": "#/definitions/api.CreateProductRequestDto"
                         }
                     }
                 ],
@@ -42,7 +43,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/domain.Product"
+                            "type": "string"
                         }
                     }
                 }
@@ -50,28 +51,11 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "api.CreateProductDto": {
+        "api.CreateProductRequestDto": {
             "type": "object",
             "properties": {
                 "company": {
                     "type": "string"
-                },
-                "model": {
-                    "type": "string"
-                },
-                "price": {
-                    "type": "integer"
-                }
-            }
-        },
-        "domain.Product": {
-            "type": "object",
-            "properties": {
-                "company": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
                 },
                 "model": {
                     "type": "string"

@@ -36,15 +36,12 @@ func handleSwagger() {
 
 func main() {
 	handleSwagger()
+	router := mux.NewRouter()
 
-	http.Handle("/", initRouter())
+	router.HandleFunc("/api/v1/products", application.CreateProductHanlder).Methods("POST")
+
+	http.Handle("/", router)
 
 	fmt.Println("Server is listening...")
 	http.ListenAndServe(":8080", nil)
-}
-
-func initRouter() *mux.Router {
-	router := mux.NewRouter()
-	router.HandleFunc("/create", application.CreateProductHanlder).Methods("POST")
-	return router
 }
