@@ -8,17 +8,9 @@ import (
 	"net/http"
 )
 
-// @Tags Продукты
-// @Summary Создать продукт
-// @Description Создать продукт
-// @Accept json
-// @Produce json
-// @Param JSON body api.CreateProductRequestDto true "CreateProductDto"
-// @Success 200 {object} string
-// @Router /products [POST]
 func CreateProductHanlder(
 	w http.ResponseWriter,
-	r *http.Request) {
+	r *http.Request) error {
 
 	var requestDto api.CreateProductRequestDto
 
@@ -27,23 +19,22 @@ func CreateProductHanlder(
 	err := json.NewDecoder(r.Body).Decode(&requestDto)
 
 	if err != nil {
-		http.Error(w, "Invalid JSON", http.StatusBadRequest)
-		return
+		return err
 	}
 
 	if err = requestDto.Validate(); err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
+		return err
 	}
 
 	res, err := infrastructure.Create(requestDto)
 
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(err.Error()))
-		return
+		return err
 	}
 
+	// TODO Сделать универсальную обработку ответов на запросы ( Envelope )
 	w.WriteHeader(http.StatusCreated)
 	fmt.Fprintf(w, "Продукт успешно создан id: %d", *res)
+
+	return nil
 }

@@ -11,7 +11,6 @@ import (
 	"fmt"
 	"net/http"
 
-	"backend-go/application"
 	_ "backend-go/docs"
 
 	"github.com/gorilla/mux"
@@ -38,7 +37,7 @@ func main() {
 	handleSwagger()
 	router := mux.NewRouter()
 
-	router.HandleFunc("/api/v1/products", application.CreateProductHanlder).Methods("POST")
+	router.HandleFunc("/api/v1/products", CreateProductHanlder).Methods("POST")
 
 	http.Handle("/", router)
 

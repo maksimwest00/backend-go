@@ -22,7 +22,7 @@ paths:
       - application/json
       description: Создать продукт
       parameters:
-      - description: CreateProductDto
+      - description: CreateProductRequestDto
         in: body
         name: JSON
         required: true

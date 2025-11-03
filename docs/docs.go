@@ -30,7 +30,7 @@ const docTemplate = `{
                 "summary": "Создать продукт",
                 "parameters": [
                     {
-                        "description": "CreateProductDto",
+                        "description": "CreateProductRequestDto",
                         "name": "JSON",
                         "in": "body",
                         "required": true,
