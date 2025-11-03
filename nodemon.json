@@ -1,7 +1,7 @@
 {
   "watch": ["**/*.go"],
-  "ignore": ["**/testdata/**"],
+  "ignore": ["**/testdata/**","**/docs/**"],
   "ext": "go",
-  "exec": "go run main.go",
+  "exec": "swag init && go run main.go",
   "delay": "1000"
 }

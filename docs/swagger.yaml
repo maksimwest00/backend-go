@@ -1,0 +1,53 @@
+basePath: /api/v1
+definitions:
+  api.CreateProductDto:
+    properties:
+      company:
+        type: string
+      model:
+        type: string
+      price:
+        type: integer
+    type: object
+  domain.Product:
+    properties:
+      company:
+        type: string
+      id:
+        type: integer
+      model:
+        type: string
+      price:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a sample server.
+  title: Backend-Go API Title
+  version: "1.0"
+paths:
+  /products:
+    post:
+      consumes:
+      - application/json
+      description: Создать продукт
+      parameters:
+      - description: CreateProductDto
+        in: body
+        name: JSON
+        schema:
+          $ref: '#/definitions/api.CreateProductDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Product'
+      summary: Создать продукт
+      tags:
+      - Продукты
+schemes:
+- http
+swagger: "2.0"

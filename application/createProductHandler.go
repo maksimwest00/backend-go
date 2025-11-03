@@ -7,6 +7,14 @@ import (
 	"net/http"
 )
 
+// @Tags Продукты
+// @Summary Создать продукт
+// @Description Создать продукт
+// @Accept json
+// @Produce json
+// @Param JSON body api.CreateProductDto false "CreateProductDto"
+// @Success 200 {object} domain.Product
+// @Router /products [post]
 func CreateProductHanlder(
 	w http.ResponseWriter,
 	r *http.Request) {
