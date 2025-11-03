@@ -1,8 +1,8 @@
-package application
+package createProduct
 
 import (
-	"backend-go/api"
-	"backend-go/infrastructure"
+	repository "backend-go/application/interfaces"
+	"backend-go/domain"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -10,9 +10,10 @@ import (
 
 func CreateProductHanlder(
 	w http.ResponseWriter,
-	r *http.Request) error {
+	r *http.Request,
+	repo repository.ProductRepository) error {
 
-	var requestDto api.CreateProductRequestDto
+	var requestDto CreateProductRequestDto
 
 	defer r.Body.Close()
 
@@ -26,7 +27,12 @@ func CreateProductHanlder(
 		return err
 	}
 
-	res, err := infrastructure.Create(requestDto)
+	res, err := repo.AddProduct(
+		&domain.Product{
+			Model:   requestDto.Model,
+			Company: requestDto.Company,
+			Price:   requestDto.Price,
+		})
 
 	if err != nil {
 		return err

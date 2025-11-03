@@ -11,8 +11,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"backend-go/application"
 	_ "backend-go/docs"
+	"backend-go/handlers"
 
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
@@ -34,30 +34,11 @@ func handleSwagger() {
 	http.Handle("/swagger/", httpSwagger.WrapHandler)
 }
 
-// @Tags Продукты
-// @Summary Создать продукт
-// @Description Создать продукт
-// @Accept json
-// @Produce json
-// @Param JSON body api.CreateProductRequestDto true "CreateProductRequestDto"
-// @Success 200 {object} string
-// @Router /products [POST]
-func CreateProductHanlder(
-	w http.ResponseWriter,
-	r *http.Request) {
-
-	err := application.CreateProductHanlder(w, r)
-
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
-
 func main() {
 	handleSwagger()
 	router := mux.NewRouter()
 
-	router.HandleFunc("/api/v1/products", CreateProductHanlder).Methods("POST")
+	router.HandleFunc("/api/v1/products", handlers.CreateProductHanlder).Methods("POST")
 
 	http.Handle("/", router)
 
