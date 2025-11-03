@@ -1,0 +1,7 @@
+{
+  "watch": ["**/*.go"],
+  "ignore": ["**/testdata/**"],
+  "ext": "go",
+  "exec": "go run main.go",
+  "delay": "1000"
+}
